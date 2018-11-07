@@ -5,5 +5,7 @@ import com.apap.tutorial8.model.UserRoleModel;
 public interface UserRoleService {
 	UserRoleModel addUser(UserRoleModel user);
 	public String encrypt(String password);
+	public UserRoleModel findUserByUsername(String username);
+	public void changePassword(UserRoleModel user, String newPassword);
 
 }

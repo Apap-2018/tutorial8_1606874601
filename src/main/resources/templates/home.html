@@ -14,6 +14,11 @@
     <div class="container-fluid">
         <h2 th:text="'Hello ' + ${#httpServletRequest.remoteUser} + ' !'">Login as</h2>
         
+        <form th:action="@{/user/updatePassword}">
+        	<button type="submit" class="btn btn-primary">Ubah Password</button>
+        </form>
+        <br>
+        
         <div class="row">
         	<div class="col-md-6">
                 <div class="card">
@@ -28,7 +33,7 @@
                     		</div>
                     		<div class="row form-group">
                     			<label class="col-sm-4">Password: </label>
-                    			<input class="col-sm-8 form-control input-sm" type="password" name="password" />
+                    			<input class="col-sm-8 form-control input-sm" type="password" name="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" title="Password harus mengandung angka dan huruf serta minimal memiliki 8 karakter" required="required"/>
                     		</div>
                     		<div class="row form-group">
                     			<label class="col-sm-4">Role: </label>
