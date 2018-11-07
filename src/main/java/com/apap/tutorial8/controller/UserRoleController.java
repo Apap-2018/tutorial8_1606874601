@@ -20,40 +20,39 @@ import com.apap.tutorial8.service.UserRoleService;
 public class UserRoleController {
 	@Autowired
 	private UserRoleService userService;
-	
+
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	private String addUserSubmit(@ModelAttribute UserRoleModel user) {
 		userService.addUser(user);
 		return "home";
 	}
-	
+
 	@RequestMapping("/updatePassword")
 	public String updatePassword() {
 		return "update-password";
 	}
-	
-	@RequestMapping(value="/submitPass", method = RequestMethod.POST)
-	private ModelAndView updatePasswordSubmit(@ModelAttribute PasswordModel pass, Model model, RedirectAttributes redirect) {
+
+	@RequestMapping(value = "/submitPassword", method = RequestMethod.POST)
+	private ModelAndView updatePasswordSubmit(@ModelAttribute PasswordModel pass, Model model,
+			RedirectAttributes redirect) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		UserRoleModel user = userService.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		UserRoleModel user = userService
+				.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		String msg = "";
-		
-		if(pass.getConfirm().equals(pass.getNewPass())) {
-			if(passwordEncoder.matches(pass.getOld(), user.getPassword())) {
+
+		if (pass.getConfirm().equals(pass.getNewPass())) {
+			if (passwordEncoder.matches(pass.getOld(), user.getPassword())) {
 				userService.changePassword(user, pass.getNewPass());
 				msg = "Password berhasil diubah!";
-			}
-			else {
+			} else {
 				msg = "Password lama anda salah!";
 			}
-		}
-		else {
+		} else {
 			msg = "Password baru tidak sesuai!";
 		}
 		ModelAndView modelAndView = new ModelAndView("redirect:/user/updatePassword");
 		redirect.addFlashAttribute("msg", msg);
 		return modelAndView;
 	}
-	
 
 }
